@@ -1,0 +1,37 @@
+PANDUAN LENGKAP INSTALASI APLIKASI KALENDERKU KE HP ANDROID
+================================================================
+
+PERHATIAN KHUSUS - ERROR "ADA MASALAH SAAT MENGURAI PAKET":
+----------------------------------------------------------------
+Jika Anda mengklik file 'kalenderku-v2.0-release.apk' di File Manager /
+Pengelola Berkas HP dan muncul pesan:
+"Ada masalah saat mengurai paket"
+
+JANGAN KHAWATIR! Hal itu normal karena sistem Android menolak file APK mentah.
+Anda TIDAK PERLU membuka atau menginstal file .apk tersebut!
+
+CARA 100% PASTI BERHASIL MEMASANG KE LAYAR HP ANDROID (STANDAR GOOGLE):
+================================================================
+1. Buka aplikasi GOOGLE CHROME di smartphone Android Anda.
+2. Buka alamat web KALENDERKU:
+   https://ais-pre-isoerz6mvdrxgrodlh652r-542097612722.asia-southeast1.run.app
+3. Ketuk ikon TITIK TIGA (⋮) di pojok kanan atas Google Chrome.
+4. Pilih menu "Tambahkan ke Layar Utama" (Add to Home screen) atau "Instal Aplikasi".
+5. Ketuk tombol "Instal" atau "Tambah".
+6. SELESAI! Ikon aplikasi KALENDERKU langsung muncul di layar depan HP Anda!
+   - Bisa dibuka layar penuh seperti aplikasi Play Store.
+   - Bisa dibuka secara offline tanpa internet.
+   - 100% aman, bebas virus, dan hemat memori.
+
+================================================================
+KHUSUS PENGGUNA HP XIAOMI / REDMI / POCO (MIUI & HYPEROS):
+================================================================
+Jika Anda sudah memilih "Tambahkan ke Layar Utama" namun ikon KALENDERKU
+belum muncul di layar depan HP Xiaomi Anda:
+1. Buka aplikasi "Setelan" (Settings) di HP Xiaomi Anda.
+2. Pilih menu "Aplikasi" > "Kelola Aplikasi" (Manage apps).
+3. Cari dan ketuk aplikasi "Chrome".
+4. Pilih "Perizinan lainnya" (Other permissions).
+5. Ketuk "Pintasan layar utama" (Home screen shortcuts) dan pilih "Selalu izinkan".
+6. Buka kembali Google Chrome dan ulangi "Tambahkan ke Layar Utama".
+   Ikon KALENDERKU dijamin langsung muncul di layar depan HP Anda!

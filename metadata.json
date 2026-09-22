@@ -1,0 +1,6 @@
+{
+  "name": "KALENDERKU 2027",
+  "description": "Aplikasi kalender digital custom 2025–2030 dengan Kalender Masehi, Hijriyah, Kalender Jawa & Pasaran, foto keluarga, catatan, reminder, kenangan, fitur berbagi via WhatsApp, dan widget Android.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
