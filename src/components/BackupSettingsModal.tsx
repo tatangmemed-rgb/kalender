@@ -1,4 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import { 
   X, Download, Upload, ShieldCheck, Moon, Sun, 
   Monitor, RefreshCw, Check, AlertTriangle, Database, Info 
@@ -27,26 +30,67 @@ export const BackupSettingsModal: React.FC<BackupSettingsModalProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Handle Export / Download JSON
-  const handleExportBackup = () => {
-    try {
-      const dataStr = exportAllData();
-      const blob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const dateStr = new Date().toISOString().slice(0, 10);
-      a.href = url;
-      a.download = `KALENDERKU_2027_Backup_${dateStr}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+const handleExportBackup = async () => {
+  try {
+    const dataStr = exportAllData();
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const fileName = `KALENDERKU_2027_Backup_${dateStr}.json`;
 
-      setSuccessMessage('File cadangan data berhasil diunduh ke perangkat Anda!');
-      setTimeout(() => setSuccessMessage(null), 4000);
-    } catch {
-      setErrorMessage('Gagal mengekspor data cadangan.');
+    // Android APK / Capacitor
+    if (Capacitor.isNativePlatform()) {
+      const file = await Filesystem.writeFile({
+        path: fileName,
+        data: dataStr,
+        directory: Directory.Cache,
+        encoding: Encoding.UTF8,
+      });
+
+      await Share.share({
+        title: 'Backup KALENDERKU 2027',
+        text: 'File backup data KALENDERKU 2027',
+        url: file.uri,
+        dialogTitle: 'Simpan / Bagikan Backup',
+      });
+
+      setSuccessMessage(
+        'Backup berhasil dibuat. Silakan pilih tempat untuk menyimpan file.'
+      );
+      setTimeout(() => setSuccessMessage(null), 5000);
+      return;
     }
-  };
+
+    // Browser / PWA
+    const blob = new Blob([dataStr], {
+      type: 'application/json;charset=utf-8',
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    setSuccessMessage(
+      'File cadangan data berhasil diunduh ke perangkat Anda!'
+    );
+    setTimeout(() => setSuccessMessage(null), 4000);
+
+  } catch (error) {
+    console.error('Backup gagal:', error);
+
+    setErrorMessage(
+      'Backup gagal. Silakan coba lagi.'
+    );
+    setTimeout(() => setErrorMessage(null), 5000);
+  }
+};
 
   // Handle Import / Restore JSON
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
