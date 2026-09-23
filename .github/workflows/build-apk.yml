@@ -36,22 +36,12 @@ jobs:
           sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Install web dependencies
-  run: npm install --legacy-peer-deps
-
-      - name: Install Capacitor
-        run: |
-          npm install --no-audit --no-fund @capacitor/core @capacitor/cli @capacitor/android
+        run: npm install --legacy-peer-deps
 
       - name: Build web app
         run: npm run build
 
-      - name: Initialize Capacitor
-        run: npx cap init "Kalender" "com.tatangmemed.kalender" --web-dir=dist
-
-      - name: Add Android platform
-        run: npx cap add android
-
-      - name: Sync web app to Android
+      - name: Sync Capacitor
         run: npx cap sync android
 
       - name: Build debug APK
