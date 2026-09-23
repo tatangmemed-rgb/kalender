@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  ChevronLeft, ChevronRight, Calendar as CalendarIcon, 
+  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Calendar as CalendarIcon, 
   Sparkles, Star, Bell, BookOpen, Camera, Info, MessageCircle 
 } from 'lucide-react';
 import { DayCalendarInfo, HeaderPhotoConfig, NoteItem, ReminderItem, MemoryItem } from '../types';
@@ -12,6 +12,8 @@ interface MainCalendarViewProps {
   currentMonth: number; // 0-11
   onPrevMonth: () => void;
   onNextMonth: () => void;
+  onPrevYear?: () => void;
+  onNextYear?: () => void;
   onGoToday: () => void;
   onSelectMonthYear: (year: number, month: number) => void;
   onSelectDate: (day: DayCalendarInfo) => void;
@@ -28,6 +30,8 @@ export const MainCalendarView: React.FC<MainCalendarViewProps> = ({
   currentMonth,
   onPrevMonth,
   onNextMonth,
+  onPrevYear,
+  onNextYear,
   onGoToday,
   onSelectMonthYear,
   onSelectDate,
@@ -93,25 +97,56 @@ export const MainCalendarView: React.FC<MainCalendarViewProps> = ({
       {/* 2. Month Navigation & Controls Bar */}
       <div className="p-4 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/80 dark:border-stone-800 shadow-xs space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Month & Year Title with Selector */}
+          {/* Month & Year Title with Selectors */}
           <div className="flex items-center gap-3">
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-stone-900 dark:text-stone-50">
-                  {MONTH_NAMES_ID[currentMonth]}
-                </h1>
-                <span className="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400">
-                  {currentYear}
-                </span>
+              <div className="flex items-center flex-wrap gap-2">
+                <select
+                  value={currentMonth}
+                  aria-label="Pilih Bulan"
+                  onChange={(e) => onSelectMonthYear(currentYear, parseInt(e.target.value, 10))}
+                  className="text-xl sm:text-2xl font-black bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-50 rounded-xl px-2 py-1 border border-stone-300 dark:border-stone-700 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                >
+                  {MONTH_NAMES_ID.map((mName, mIdx) => (
+                    <option key={mIdx} value={mIdx} className="bg-white dark:bg-stone-900 text-sm font-semibold">
+                      {mName}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={currentYear}
+                  aria-label="Pilih Tahun"
+                  onChange={(e) => onSelectMonthYear(parseInt(e.target.value, 10), currentMonth)}
+                  className="text-xl sm:text-2xl font-black bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-xl px-2 py-1 border border-amber-500/30 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                >
+                  {SUPPORTED_YEARS.map((yVal) => (
+                    <option key={yVal} value={yVal} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 text-sm font-bold">
+                      {yVal}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium mt-1">
                 {hijriSubtitle} • {jawaSubtitle}
               </p>
             </div>
           </div>
 
-          {/* Navigation Buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Navigation Controls */}
+          <div className="flex items-center flex-wrap gap-1 sm:gap-1.5">
+            {onPrevYear && (
+              <button
+                type="button"
+                onClick={onPrevYear}
+                className="p-2 sm:px-2.5 sm:py-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700 transition-all active:scale-95 flex items-center gap-1"
+                title="Tahun Sebelumnya"
+              >
+                <ChevronsLeft className="w-4 h-4 text-stone-600 dark:text-stone-300" />
+                <span className="text-xs font-semibold hidden md:inline">Thn Lalu</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={onPrevMonth}
@@ -142,6 +177,18 @@ export const MainCalendarView: React.FC<MainCalendarViewProps> = ({
               <ChevronRight className="w-4 h-4" />
             </button>
 
+            {onNextYear && (
+              <button
+                type="button"
+                onClick={onNextYear}
+                className="p-2 sm:px-2.5 sm:py-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-700 transition-all active:scale-95 flex items-center gap-1"
+                title="Tahun Berikutnya"
+              >
+                <span className="text-xs font-semibold hidden md:inline">Thn Depan</span>
+                <ChevronsRight className="w-4 h-4 text-stone-600 dark:text-stone-300" />
+              </button>
+            )}
+
             {onOpenShareModal && (
               <button
                 type="button"
@@ -156,10 +203,10 @@ export const MainCalendarView: React.FC<MainCalendarViewProps> = ({
           </div>
         </div>
 
-        {/* Quick Year Selector Pills 2025 - 2030 */}
+        {/* Quick Year Selector Pills 2025 - 2050 */}
         <div className="flex items-center gap-2 pt-2 border-t border-stone-100 dark:border-stone-800/80">
           <span className="text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider shrink-0">
-            Tahun:
+            Tahun (2025–2050):
           </span>
           <div className="flex gap-1 overflow-x-auto no-scrollbar py-0.5">
             {SUPPORTED_YEARS.map((yr) => (

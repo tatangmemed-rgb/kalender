@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="header" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#92400e" />
+    </linearGradient>
+  </defs>
+  <!-- Background Card -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#bg)" filter="drop-shadow(0 20px 25px rgba(0,0,0,0.25))" />
+  
+  <!-- Calendar Body -->
+  <rect x="72" y="100" width="368" height="340" rx="36" fill="#ffffff" />
+  
+  <!-- Calendar Top Red/Amber Banner -->
+  <path d="M 72 136 C 72 116 88 100 108 100 L 404 100 C 424 100 440 116 440 136 L 440 180 L 72 180 Z" fill="url(#header)" />
+  
+  <!-- Calendar Binder Rings -->
+  <rect x="140" y="70" width="24" height="60" rx="12" fill="#78350f" />
+  <rect x="348" y="70" width="24" height="60" rx="12" fill="#78350f" />
+  
+  <!-- Month/Year Text -->
+  <text x="256" y="152" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="4">2027</text>
+  
+  <!-- Date Number 27 -->
+  <text x="256" y="320" font-family="'Trebuchet MS', Arial, sans-serif" font-size="140" font-weight="900" fill="#1c1917" text-anchor="middle">27</text>
+  
+  <!-- Subtitle Text Jawa & Hijriyah -->
+  <text x="256" y="375" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#d97706" text-anchor="middle" letter-spacing="2">KALENDERKU</text>
+  <text x="256" y="405" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#78716c" text-anchor="middle">MASEHI • HIJRIYAH • JAWA</text>
+</svg>

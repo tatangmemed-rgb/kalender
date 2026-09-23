@@ -1,0 +1,20 @@
+PENTING: JANGAN MENGINSTAL FILE APK DARI PENGELOLA FILE HP!
+===================================================================
+
+Jika Anda melihat pesan:
+"Ada masalah saat mengurai paket" / "Kesalahan saat mengurai paket"
+
+PENYEBAB:
+File .apk mentah di luar Google Play Store ditolak otomatis oleh sistem keamanan
+HP Android (terutama Xiaomi, Redmi, Samsung, dsb).
+
+CARA BENAR & 100% BERHASIL MEMASANG APLIKASI KE LAYAR HP:
+-------------------------------------------------------------------
+1. Buka browser GOOGLE CHROME di HP Anda.
+2. Buka link web KALENDERKU:
+   https://ais-pre-isoerz6mvdrxgrodlh652r-542097612722.asia-southeast1.run.app
+3. Di pojok kanan atas Chrome, ketuk ikon TITIK TIGA (⋮).
+4. Pilih menu: "Tambahkan ke Layar Utama" (Add to Home screen) atau "Instal Aplikasi".
+5. Ketuk "Instal".
+6. Selesai! Ikon KALENDERKU langsung terpasang di HP Anda, bisa dibuka layar penuh,
+   dan bekerja secara offline tanpa internet.

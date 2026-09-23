@@ -45,128 +45,43 @@ const NEPTU_PASARAN: Record<PasaranType, number> = {
   Kliwon: 8,
 };
 
-// Supported years 2025 - 2030
-export const SUPPORTED_YEARS = [2025, 2026, 2027, 2028, 2029, 2030] as const;
+// Supported years range: 2025 to 2050 (extensible dynamically)
+export const MIN_YEAR = 2025;
+export const MAX_YEAR = 2050;
 
-// Indonesian National Holidays covering 2025 through 2030
-export const NATIONAL_HOLIDAYS: Record<string, string> = {
-  // === 2025 ===
-  '2025-01-01': 'Tahun Baru 2025 Masehi',
-  '2025-01-27': "Isra Mi'raj Nabi Muhammad SAW 1446 H",
-  '2025-01-29': 'Tahun Baru Imlek 2576 Kongzili',
-  '2025-03-29': 'Hari Suci Nyepi (Tahun Baru Saka 1947)',
-  '2025-03-31': 'Hari Raya Idul Fitri 1446 H (Hari ke-1)',
-  '2025-04-01': 'Hari Raya Idul Fitri 1446 H (Hari ke-2)',
-  '2025-04-18': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2025-04-20': 'Kebangkitan Yesus Kristus (Paskah)',
-  '2025-05-01': 'Hari Buruh Internasional',
-  '2025-05-12': 'Hari Raya Waisak 2569 BE',
-  '2025-05-29': 'Kenaikan Yesus Kristus',
-  '2025-06-01': 'Hari Lahir Pancasila',
-  '2025-06-06': 'Hari Raya Idul Adha 1446 H',
-  '2025-06-27': '1 Muharram Tahun Baru Islam 1447 H',
-  '2025-08-17': 'Hari Kemerdekaan RI (HUT RI ke-80)',
-  '2025-09-05': 'Maulid Nabi Muhammad SAW 1447 H',
-  '2025-12-25': 'Hari Raya Natal',
+export const SUPPORTED_YEARS: number[] = Array.from(
+  { length: MAX_YEAR - MIN_YEAR + 1 },
+  (_, i) => MIN_YEAR + i
+);
 
-  // === 2026 ===
-  '2026-01-01': 'Tahun Baru 2026 Masehi',
-  '2026-01-16': "Isra Mi'raj Nabi Muhammad SAW 1447 H",
-  '2026-02-17': 'Tahun Baru Imlek 2577 Kongzili',
-  '2026-03-19': 'Hari Suci Nyepi (Tahun Baru Saka 1948)',
-  '2026-03-20': 'Hari Raya Idul Fitri 1447 H (Hari ke-1)',
-  '2026-03-21': 'Hari Raya Idul Fitri 1447 H (Hari ke-2)',
-  '2026-04-03': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2026-04-05': 'Hari Paskah',
-  '2026-05-01': 'Hari Buruh Internasional',
-  '2026-05-14': 'Kenaikan Yesus Kristus',
-  '2026-05-27': 'Hari Raya Idul Adha 1447 H',
-  '2026-05-31': 'Hari Raya Waisak 2570 BE',
-  '2026-06-01': 'Hari Lahir Pancasila',
-  '2026-06-16': '1 Muharram Tahun Baru Islam 1448 H',
-  '2026-08-17': 'Hari Kemerdekaan RI (HUT RI ke-81)',
-  '2026-08-25': 'Maulid Nabi Muhammad SAW 1448 H',
-  '2026-12-25': 'Hari Raya Natal',
+/**
+ * Checks whether a given Gregorian year is a leap year (tahun kabisat)
+ */
+export function isLeapYear(year: number): boolean {
+  return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+}
 
-  // === 2027 ===
-  '2027-01-01': 'Tahun Baru 2027 Masehi',
-  '2027-01-05': "Isra Mi'raj Nabi Muhammad SAW 1448 H",
-  '2027-02-06': 'Tahun Baru Imlek 2578 Kongzili',
-  '2027-03-08': 'Hari Suci Nyepi (Tahun Baru Saka 1949)',
-  '2027-03-10': 'Hari Raya Idul Fitri 1448 H (Hari ke-1)',
-  '2027-03-11': 'Hari Raya Idul Fitri 1448 H (Hari ke-2)',
-  '2027-03-26': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2027-03-28': 'Hari Paskah',
-  '2027-05-01': 'Hari Buruh Internasional',
-  '2027-05-06': 'Kenaikan Yesus Kristus',
-  '2027-05-17': 'Hari Raya Idul Adha 1448 H',
-  '2027-05-20': 'Hari Raya Waisak 2571 BE',
-  '2027-06-01': 'Hari Lahir Pancasila',
-  '2027-06-06': '1 Muharram Tahun Baru Islam 1449 H',
-  '2027-08-15': 'Maulid Nabi Muhammad SAW 1449 H',
-  '2027-08-17': 'Hari Kemerdekaan RI (HUT RI ke-82)',
-  '2027-12-25': 'Hari Raya Natal',
-
-  // === 2028 ===
-  '2028-01-01': 'Tahun Baru 2028 Masehi',
-  '2028-01-26': 'Tahun Baru Imlek 2579 Kongzili',
-  '2028-02-27': 'Hari Raya Idul Fitri 1449 H (Hari ke-1)',
-  '2028-02-28': 'Hari Raya Idul Fitri 1449 H (Hari ke-2)',
-  '2028-03-26': 'Hari Suci Nyepi (Tahun Baru Saka 1950)',
-  '2028-04-14': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2028-04-16': 'Hari Paskah',
-  '2028-05-01': 'Hari Buruh Internasional',
-  '2028-05-05': 'Hari Raya Idul Adha 1449 H',
-  '2028-05-08': 'Hari Raya Waisak 2572 BE',
-  '2028-05-25': 'Kenaikan Yesus Kristus',
-  '2028-05-26': '1 Muharram Tahun Baru Islam 1450 H',
-  '2028-06-01': 'Hari Lahir Pancasila',
-  '2028-08-04': 'Maulid Nabi Muhammad SAW 1450 H',
-  '2028-08-17': 'Hari Kemerdekaan RI (HUT RI ke-83)',
-  '2028-12-14': "Isra Mi'raj Nabi Muhammad SAW 1450 H",
-  '2028-12-25': 'Hari Raya Natal',
-
-  // === 2029 ===
-  '2029-01-01': 'Tahun Baru 2029 Masehi',
-  '2029-02-13': 'Tahun Baru Imlek 2580 Kongzili',
-  '2029-02-15': 'Hari Raya Idul Fitri 1450 H (Hari ke-1)',
-  '2029-02-16': 'Hari Raya Idul Fitri 1450 H (Hari ke-2)',
-  '2029-03-15': 'Hari Suci Nyepi (Tahun Baru Saka 1951)',
-  '2029-03-30': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2029-04-01': 'Hari Paskah',
-  '2029-04-24': 'Hari Raya Idul Adha 1450 H',
-  '2029-05-01': 'Hari Buruh Internasional',
-  '2029-05-10': 'Kenaikan Yesus Kristus',
-  '2029-05-15': '1 Muharram Tahun Baru Islam 1451 H',
-  '2029-05-28': 'Hari Raya Waisak 2573 BE',
-  '2029-06-01': 'Hari Lahir Pancasila',
-  '2029-07-24': 'Maulid Nabi Muhammad SAW 1451 H',
-  '2029-08-17': 'Hari Kemerdekaan RI (HUT RI ke-84)',
-  '2029-12-04': "Isra Mi'raj Nabi Muhammad SAW 1451 H",
-  '2029-12-25': 'Hari Raya Natal',
-
-  // === 2030 ===
-  '2030-01-01': 'Tahun Baru 2030 Masehi',
-  '2030-02-03': 'Tahun Baru Imlek 2581 Kongzili',
-  '2030-02-05': 'Hari Raya Idul Fitri 1451 H (Hari ke-1)',
-  '2030-02-06': 'Hari Raya Idul Fitri 1451 H (Hari ke-2)',
-  '2030-03-05': 'Hari Suci Nyepi (Tahun Baru Saka 1952)',
-  '2030-04-14': 'Hari Raya Idul Adha 1451 H',
-  '2030-04-19': 'Wafat Yesus Kristus (Jumat Agung)',
-  '2030-04-21': 'Hari Paskah',
-  '2030-05-01': 'Hari Buruh Internasional',
-  '2030-05-05': '1 Muharram Tahun Baru Islam 1452 H',
-  '2030-05-16': 'Hari Raya Waisak 2574 BE',
-  '2030-05-30': 'Kenaikan Yesus Kristus',
-  '2030-06-01': 'Hari Lahir Pancasila',
-  '2030-07-14': 'Maulid Nabi Muhammad SAW 1452 H',
-  '2030-08-17': 'Hari Kemerdekaan RI (HUT RI ke-85)',
-  '2030-11-23': "Isra Mi'raj Nabi Muhammad SAW 1452 H",
-  '2030-12-25': 'Hari Raya Natal',
-};
-
-// Kept for backward compatibility
-export const HOLIDAYS_2027 = NATIONAL_HOLIDAYS;
+/**
+ * Calculates Western Easter Sunday using Meeus/Jones/Butcher algorithm
+ * Works precisely for any Gregorian year
+ */
+export function getEasterSunday(year: number): Date {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31) - 1; // 0-based: 2=March, 3=April
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month, day);
+}
 
 /**
  * Calculates Pasaran Jawa using astronomical base epoch.
@@ -188,7 +103,6 @@ export function getPasaranJawa(date: Date): PasaranType {
 
 /**
  * Calculates Wuku Jawa (cycle of 30 wuku, each 7 days, starting Sunday)
- * Anchor: 1970-01-01 was Kemis in Wuku Gumbreg (index 5)
  */
 export function getWuku(date: Date): string {
   const localYear = date.getFullYear();
@@ -198,9 +112,6 @@ export function getWuku(date: Date): string {
   const epoch = Date.UTC(1970, 0, 1);
   const diffDays = Math.floor((utcDate - epoch) / 86400000);
   
-  // Wuku changes every Sunday.
-  // 1970-01-01 was Thursday (Kemis). The Sunday before 1970-01-01 was 1969-12-28.
-  // Using calibrated Wuku epoch offset:
   const dayIndex = diffDays + 4; // Shift so Sunday aligns
   const wukuWeekNumber = Math.floor(dayIndex / 7);
   const wukuIndex = ((wukuWeekNumber + 5) % 30 + 30) % 30;
@@ -209,10 +120,9 @@ export function getWuku(date: Date): string {
 
 /**
  * Calculates Hijri calendar date (Kuwaiti / Umm al-Qura standard algorithm)
- * For 2027, covers 1448 H (Rajab - Dzulhijjah) and 1449 H (Muharram - Rajab)
+ * Dynamically supported for all years 2025 to 2050 and beyond
  */
 export function getHijriDate(date: Date): { day: number; month: number; monthName: string; year: number } {
-  // Use Intl if supported for Islamic Umm al-Qura
   try {
     const formatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
       day: 'numeric',
@@ -222,7 +132,7 @@ export function getHijriDate(date: Date): { day: number; month: number; monthNam
     const parts = formatter.formatToParts(date);
     let d = 1;
     let m = 1;
-    let y = 1448;
+    let y = 1446;
     for (const part of parts) {
       if (part.type === 'day') d = parseInt(part.value, 10);
       if (part.type === 'month') m = parseInt(part.value, 10);
@@ -236,7 +146,7 @@ export function getHijriDate(date: Date): { day: number; month: number; monthNam
       year: y
     };
   } catch {
-    // Robust algorithmic astronomical fallback
+    // Robust astronomical algorithmic fallback
     const jd = getJulianDay(date);
     const l = Math.floor(jd - 1948440 + 10632);
     const n = Math.floor((l - 1) / 10631);
@@ -250,7 +160,7 @@ export function getHijriDate(date: Date): { day: number; month: number; monthNam
     return {
       day: d,
       month: safeMonth,
-      monthName: HIJRI_MONTH_NAMES[safeMonth - 1],
+      monthName: HIJRI_MONTH_NAMES[safeMonth - 1] || 'Hijri',
       year: y
     };
   }
@@ -260,22 +170,140 @@ function getJulianDay(date: Date): number {
   const y = date.getFullYear();
   const m = date.getMonth() + 1;
   const d = date.getDate();
-  let a = Math.floor((14 - m) / 12);
-  let year = y + 4800 - a;
-  let month = m + 12 * a - 3;
+  const a = Math.floor((14 - m) / 12);
+  const year = y + 4800 - a;
+  const month = m + 12 * a - 3;
   return d + Math.floor((153 * month + 2) / 5) + 365 * year + Math.floor(year / 4) - Math.floor(year / 100) + Math.floor(year / 400) - 32045;
 }
 
 /**
  * Returns Javanese month and year corresponding to the date.
  * Javanese Sultan Agung calendar is synchronous with Hijri months.
- * Tahun Jawa: Hijri year + 512 (e.g. 1448 H ≈ 1960 Jawa 'Dal', 1449 H ≈ 1961 Jawa 'Be')
+ * Tahun Jawa: Hijri year + 512 (e.g. 1446 H ≈ 1958 Jawa, 1447 H ≈ 1959 Jawa, 1448 H ≈ 1960 Jawa)
  */
-export function getJawaDate(date: Date, hijriMonth: number, hijriYear: number): { monthName: string; year: number } {
+export function getJawaDate(_date: Date, hijriMonth: number, hijriYear: number): { monthName: string; year: number } {
   const monthName = JAWA_MONTH_NAMES[(hijriMonth - 1 + 12) % 12];
   const year = hijriYear + 512;
   return { monthName, year };
 }
+
+// Astronomical & Government decreed dates for Lunar (Imlek), Saka (Nyepi), and Buddhist (Waisak)
+// Pre-computed astronomical tables for 2025 - 2050
+const LUNAR_HOLIDAYS_TABLE: Record<number, { imlek: string; nyepi: string; waisak: string }> = {
+  2025: { imlek: '2025-01-29', nyepi: '2025-03-29', waisak: '2025-05-12' },
+  2026: { imlek: '2026-02-17', nyepi: '2026-03-19', waisak: '2026-05-31' },
+  2027: { imlek: '2027-02-06', nyepi: '2027-03-08', waisak: '2027-05-20' },
+  2028: { imlek: '2028-01-26', nyepi: '2028-03-26', waisak: '2028-05-08' },
+  2029: { imlek: '2029-02-13', nyepi: '2029-03-15', waisak: '2029-05-28' },
+  2030: { imlek: '2030-02-03', nyepi: '2030-03-05', waisak: '2030-05-16' },
+  2031: { imlek: '2031-01-23', nyepi: '2031-03-24', waisak: '2031-05-06' },
+  2032: { imlek: '2032-02-11', nyepi: '2032-03-12', waisak: '2032-05-24' },
+  2033: { imlek: '2033-01-31', nyepi: '2033-03-31', waisak: '2033-05-13' },
+  2034: { imlek: '2034-02-19', nyepi: '2034-03-20', waisak: '2034-05-03' },
+  2035: { imlek: '2035-02-08', nyepi: '2035-03-10', waisak: '2035-05-22' },
+  2036: { imlek: '2036-01-28', nyepi: '2036-03-28', waisak: '2036-05-10' },
+  2037: { imlek: '2037-02-15', nyepi: '2037-03-17', waisak: '2037-05-29' },
+  2038: { imlek: '2038-02-04', nyepi: '2038-03-07', waisak: '2038-05-18' },
+  2039: { imlek: '2039-01-24', nyepi: '2039-03-26', waisak: '2039-05-07' },
+  2040: { imlek: '2040-02-12', nyepi: '2040-03-14', waisak: '2040-05-25' },
+  2041: { imlek: '2041-02-01', nyepi: '2041-03-03', waisak: '2041-05-14' },
+  2042: { imlek: '2042-01-22', nyepi: '2042-03-22', waisak: '2042-05-04' },
+  2043: { imlek: '2043-02-10', nyepi: '2043-03-12', waisak: '2043-05-23' },
+  2044: { imlek: '2044-01-30', nyepi: '2044-03-30', waisak: '2044-05-11' },
+  2045: { imlek: '2045-02-17', nyepi: '2045-03-19', waisak: '2045-05-30' },
+  2046: { imlek: '2046-02-06', nyepi: '2046-03-08', waisak: '2046-05-20' },
+  2047: { imlek: '2047-01-26', nyepi: '2047-03-27', waisak: '2047-05-09' },
+  2048: { imlek: '2048-02-14', nyepi: '2048-03-15', waisak: '2048-05-27' },
+  2049: { imlek: '2049-02-02', nyepi: '2049-03-05', waisak: '2049-05-17' },
+  2050: { imlek: '2050-01-23', nyepi: '2050-03-24', waisak: '2050-05-06' },
+};
+
+/**
+ * Returns the Indonesian national holiday for a given date, dynamically computed for 2025–2050.
+ */
+export function getNationalHoliday(date: Date): string | null {
+  const year = date.getFullYear();
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  const dateString = `${year}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+
+  // 1. Fixed National Holidays
+  const monthDay = `${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  if (monthDay === '01-01') return `Tahun Baru ${year} Masehi`;
+  if (monthDay === '05-01') return 'Hari Buruh Internasional';
+  if (monthDay === '06-01') return 'Hari Lahir Pancasila';
+  if (monthDay === '08-17') return `Hari Kemerdekaan RI (HUT RI ke-${year - 1945})`;
+  if (monthDay === '12-25') return 'Hari Raya Natal';
+
+  // 2. Easter-based Christian Holidays
+  const easter = getEasterSunday(year);
+  const easterTime = easter.getTime();
+  const dateTime = new Date(year, date.getMonth(), date.getDate()).getTime();
+  const diffDaysFromEaster = Math.round((dateTime - easterTime) / 86400000);
+
+  if (diffDaysFromEaster === -2) return 'Wafat Yesus Kristus (Jumat Agung)';
+  if (diffDaysFromEaster === 0) return 'Kebangkitan Yesus Kristus (Hari Paskah)';
+  if (diffDaysFromEaster === 39) return 'Kenaikan Yesus Kristus';
+
+  // 3. Lunar & Saka Holidays (Imlek, Nyepi, Waisak)
+  const lunarData = LUNAR_HOLIDAYS_TABLE[year];
+  if (lunarData) {
+    if (dateString === lunarData.imlek) {
+      const kongziliYear = year + 551;
+      return `Tahun Baru Imlek ${kongziliYear} Kongzili`;
+    }
+    if (dateString === lunarData.nyepi) {
+      const sakaYear = year - 78;
+      return `Hari Suci Nyepi (Tahun Baru Saka ${sakaYear})`;
+    }
+    if (dateString === lunarData.waisak) {
+      const buddhistYear = year + 544;
+      return `Hari Raya Waisak ${buddhistYear} BE`;
+    }
+  }
+
+  // 4. Islamic Holidays (calculated via dynamic Hijri algorithm)
+  const hijri = getHijriDate(date);
+  // 1 Muharram: Tahun Baru Islam
+  if (hijri.month === 1 && hijri.day === 1) {
+    return `1 Muharram Tahun Baru Islam ${hijri.year} H`;
+  }
+  // 12 Rabiul Awal: Maulid Nabi Muhammad SAW
+  if (hijri.month === 3 && hijri.day === 12) {
+    return `Maulid Nabi Muhammad SAW ${hijri.year} H`;
+  }
+  // 27 Rajab: Isra Mi'raj
+  if (hijri.month === 7 && hijri.day === 27) {
+    return `Isra Mi'raj Nabi Muhammad SAW ${hijri.year} H`;
+  }
+  // 1 & 2 Syawal: Idul Fitri
+  if (hijri.month === 10 && hijri.day === 1) {
+    return `Hari Raya Idul Fitri ${hijri.year} H (Hari ke-1)`;
+  }
+  if (hijri.month === 10 && hijri.day === 2) {
+    return `Hari Raya Idul Fitri ${hijri.year} H (Hari ke-2)`;
+  }
+  // 10 Dzulhijjah: Idul Adha
+  if (hijri.month === 12 && hijri.day === 10) {
+    return `Hari Raya Idul Adha ${hijri.year} H`;
+  }
+
+  return null;
+}
+
+// Global lookup for backward compatibility
+export const NATIONAL_HOLIDAYS: Record<string, string> = new Proxy(
+  {},
+  {
+    get(_target, prop: string) {
+      if (typeof prop !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(prop)) return undefined;
+      const [y, m, d] = prop.split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      return getNationalHoliday(dt) || undefined;
+    }
+  }
+);
+
+export const HOLIDAYS_2027 = NATIONAL_HOLIDAYS;
 
 /**
  * Returns formatted DayCalendarInfo for any specific date
@@ -298,16 +326,8 @@ export function getDayInfo(date: Date, targetMonth?: number): DayCalendarInfo {
   const jawa = getJawaDate(date, hijri.month, hijri.year);
   const wuku = getWuku(date);
   
-  let holidayName = NATIONAL_HOLIDAYS[dateString];
-  if (!holidayName) {
-    const monthDay = `${pad(month + 1)}-${pad(dayOfMonth)}`;
-    if (monthDay === '01-01') holidayName = `Tahun Baru ${year} Masehi`;
-    else if (monthDay === '05-01') holidayName = 'Hari Buruh Internasional';
-    else if (monthDay === '06-01') holidayName = 'Hari Lahir Pancasila';
-    else if (monthDay === '08-17') holidayName = `Hari Kemerdekaan RI (HUT RI ke-${year - 1945})`;
-    else if (monthDay === '12-25') holidayName = 'Hari Raya Natal';
-  }
-  const isHoliday = !!holidayName || dayOfWeek === 0; // Sundays are also red/holidays in Indonesia
+  const holidayName = getNationalHoliday(date);
+  const isHoliday = !!holidayName || dayOfWeek === 0; // Sundays are also red in Indonesia
   
   const now = new Date();
   const isToday = 
@@ -334,7 +354,7 @@ export function getDayInfo(date: Date, targetMonth?: number): DayCalendarInfo {
     jawaYear: jawa.year,
     wuku,
     isHoliday,
-    holidayName,
+    holidayName: holidayName || undefined,
     isCurrentMonth,
     isToday
   };
@@ -342,6 +362,7 @@ export function getDayInfo(date: Date, targetMonth?: number): DayCalendarInfo {
 
 /**
  * Returns complete 5 or 6 rows of 7 days (starting Sunday) for the given month and year.
+ * Correctly accounts for leap years (Feb 29) and month boundaries.
  */
 export function getMonthCalendar(year: number, month: number): DayCalendarInfo[] {
   const days: DayCalendarInfo[] = [];
@@ -357,7 +378,7 @@ export function getMonthCalendar(year: number, month: number): DayCalendarInfo[]
     days.push(getDayInfo(prevDate, month));
   }
   
-  // Current month days
+  // Current month days (Handles Feb 28 or 29 automatically based on leap year)
   const lastDate = new Date(year, month + 1, 0).getDate();
   for (let d = 1; d <= lastDate; d++) {
     const curDate = new Date(year, month, d);

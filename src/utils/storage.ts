@@ -1,4 +1,5 @@
 import { HeaderPhotoConfig, MemoryItem, NoteItem, ReminderItem, ThemePreference } from '../types';
+import { scheduleReminderNotification, cancelReminderNotification } from './notification';
 
 const STORAGE_KEYS = {
   NOTES: 'kalenderku_notes_v1',
@@ -242,6 +243,7 @@ export function addReminder(rem: Omit<ReminderItem, 'id' | 'createdAt'>): Remind
     createdAt: new Date().toISOString()
   };
   saveReminders([newRem, ...reminders]);
+  scheduleReminderNotification(newRem);
   return newRem;
 }
 
@@ -251,6 +253,11 @@ export function toggleReminderComplete(id: string) {
   if (index !== -1) {
     reminders[index].isCompleted = !reminders[index].isCompleted;
     saveReminders(reminders);
+    if (reminders[index].isCompleted) {
+      cancelReminderNotification(id);
+    } else {
+      scheduleReminderNotification(reminders[index]);
+    }
   }
 }
 
@@ -260,12 +267,14 @@ export function updateReminder(id: string, updates: Partial<ReminderItem>) {
   if (index !== -1) {
     reminders[index] = { ...reminders[index], ...updates };
     saveReminders(reminders);
+    scheduleReminderNotification(reminders[index]);
   }
 }
 
 export function deleteReminder(id: string) {
   const reminders = getStoredReminders().filter(r => r.id !== id);
   saveReminders(reminders);
+  cancelReminderNotification(id);
 }
 
 // Memories
@@ -296,6 +305,18 @@ export function addMemory(memory: Omit<MemoryItem, 'id' | 'createdAt'>): MemoryI
   };
   saveMemories([newMem, ...memories]);
   return newMem;
+}
+
+export function updateMemory(id: string, updates: Partial<MemoryItem>) {
+  const memories = getStoredMemories();
+  const index = memories.findIndex(m => m.id === id);
+  if (index !== -1) {
+    memories[index] = {
+      ...memories[index],
+      ...updates
+    };
+    saveMemories(memories);
+  }
 }
 
 export function deleteMemory(id: string) {

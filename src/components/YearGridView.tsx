@@ -51,11 +51,30 @@ export const YearGridView: React.FC<YearGridViewProps> = ({
           <div>
             <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
               <CalendarIcon className="w-4 h-4" />
-              <span>KALENDER LENGKAP 12 BULAN (2025–2030)</span>
+              <span>KALENDER LENGKAP 12 BULAN (2025–2050)</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-50">
-              Tahun {year} Masehi
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-50">
+                Tahun
+              </h2>
+              {onSelectYear && (
+                <select
+                  value={year}
+                  aria-label="Pilih Tahun"
+                  onChange={(e) => onSelectYear(parseInt(e.target.value, 10))}
+                  className="text-2xl sm:text-3xl font-black bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-xl px-2 py-0.5 border border-amber-500/30 cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                >
+                  {SUPPORTED_YEARS.map((yVal) => (
+                    <option key={yVal} value={yVal} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 text-sm font-bold">
+                      {yVal}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <span className="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-50">
+                Masehi
+              </span>
+            </div>
             <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
               {hijriYearText} • {jawaYearText} • Ketuk salah satu bulan untuk membuka tampilan tanggal harian.
             </p>
@@ -77,7 +96,7 @@ export const YearGridView: React.FC<YearGridViewProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectYear(year + 1)}
-                disabled={year >= 2030}
+                disabled={year >= 2050}
                 className="p-2 sm:px-3 sm:py-2 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-30 disabled:pointer-events-none border border-stone-200 dark:border-stone-700 transition-all flex items-center gap-1 text-xs font-bold"
                 title="Tahun Berikutnya"
               >
