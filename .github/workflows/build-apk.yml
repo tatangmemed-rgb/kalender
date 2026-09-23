@@ -34,7 +34,7 @@ jobs:
           yes | sdkmanager --licenses >/dev/null || true
 
       - name: Install web dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install Capacitor
         run: |
